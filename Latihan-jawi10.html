@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>Fun Task Jawi</title>
+    <style>
+        :root {
+            --primary-blue: #0d6efd;
+            --primary-dark-blue: #0a58ca;
+            --light-blue-bg: #cfe2ff;
+            --light-green-bg: #d1e7dd;
+            --light-grey: #6c757d;
+            --success-green: #198754;
+            --danger-red: #dc3545;
+            --warning-yellow: #ffc107;
+        }
+
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #0c0a18;
+            background-image: 
+                radial-gradient(at 88% 3%, hsla(222,60%,55%,0.25) 0px, transparent 50%),
+                radial-gradient(at 6% 96%, hsla(240,65%,55%,0.2) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, hsla(260,75%,50%,0.1) 0px, transparent 50%);
+            color:#333;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:20px;direction:rtl;
+        }
+        .container{
+            width:100%;
+            max-width:800px;
+            margin: auto; 
+            background-color:rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius:15px;
+            padding:25px;
+            border-top: 5px solid var(--primary-blue);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 3em;font-weight: 700;margin-bottom: 20px;text-align: center;color: var(--primary-dark-blue);text-shadow: 2px 2px 4px rgba(0,0,0,0.1);direction: ltr;
+            animation: fadeInSlideUp 0.6s 0.1s ease-out forwards;
+            opacity: 0;
+        }
+        .syllable-builder {
+            flex:1;min-width:0;padding:15px;border:1px solid #ccc;border-radius:10px;
+            animation: fadeInSlideUp 0.6s 0.3s ease-out forwards;
+            opacity: 0;
+        }
+        .syllable-builder h2 {font-family: serif; font-size: 2.5em;border-bottom:2px solid #ddd;padding-bottom:10px;margin-top:0;margin-bottom: 20px;color: var(--primary-dark-blue);text-align: center;font-weight: 700;}
+        .syllable-builder p {text-align: center;font-weight: bold;color: #555;}
+        
+        .top-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; direction: ltr; flex-wrap: wrap; gap: 10px;}
+        .game-stats { display: flex; flex-wrap: wrap; gap: 10px; order: 3;}
+        .streak-counter, .score-counter { font-size: 1.2em; font-weight: bold; padding: 5px 15px; border-radius: 20px; }
+        .streak-counter { color: var(--primary-blue); background-color: var(--light-blue-bg); border: 2px solid var(--primary-blue); }
+        .score-counter { color: var(--success-green); background-color: var(--light-green-bg); border: 2px solid var(--success-green); }
+        
+        .task-container{text-align:center;direction:ltr; flex-grow: 1; order: 2;}
+        .task-container label{display:block;font-size:1.2em;color:#333;margin-bottom:8px}
+        #rumi-task{
+            padding:10px 15px;font-size:1.4em;width:70%;border:2px solid #ccc;border-radius:8px;text-align:center;
+            transition: all 0.3s ease;
+        }
+        #rumi-task:focus { 
+            border-color: var(--primary-blue); 
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+        }
+
+        .mode-switch-container { order: 1; display: flex; align-items: center; gap: 10px; font-size: 0.9em; font-weight: bold;}
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary-blue); }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        .jawi-blueprint-container {direction: rtl;text-align: center;padding: 10px;background-color: #fffbe6;border: 2px dashed var(--warning-yellow);border-radius: 10px;margin-bottom: 20px;display: none;}
+        .jawi-blueprint-container span {font-size: 3em;font-weight: bold;color: var(--primary-dark-blue);margin: 0 10px;}
+        .app-body{display:flex;gap:20px;flex-wrap:nowrap;}
+        #builder1 { background-color: var(--light-blue-bg); }
+        #builder2 { background-color: var(--light-green-bg); }
+        .button-group{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:15px}
+        
+        .button-group button{
+            font-size:2em;width:60px;height:60px;cursor:pointer;border:2px solid #ccc;border-radius:8px;background-color:#fff;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .button-group button:hover{
+            background-color:#e9ecef;
+            transform: translateY(-2px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .button-group button.selected{
+            background-color:var(--success-green);
+            color:#fff;
+            border-color:darkgreen;
+            box-shadow: 0 0 12px 2px rgba(25, 135, 84, 0.7);
+        }
+        .button-group button.disabled{opacity:.5;cursor:not-allowed}
+
+        .syllable-result{margin-top:20px;text-align:center;height:120px;border:2px dashed #ccc;border-radius:10px;background-color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:5px}
+        .syllable-display { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .jawi-syllable{
+            font-size:4em;
+            font-weight:700;
+            color:#d9534f;
+            line-height:1.2;
+        }
+        .syllable-emoji { font-size: 2.5em; }
+        .rumi-syllable{
+            font-size:1.5em;
+            font-weight:bold;
+            color:#555;
+            direction:ltr;
+            line-height:1.1;
+            margin-top: 4px; 
+        }
+        .controls{text-align:center;margin-top:20px}.action-button{font-size:1.5em;padding:15px 30px;border:none;border-radius:8px;cursor:pointer;margin:0 5px;transition:background-color .3s, transform 0.2s; font-weight: bold;}
+        .action-button:hover { transform: scale(1.05); }
+        #btn-submit{background-color:var(--primary-blue);color:#fff}
+        #btn-submit.disabled{background-color:#a0cfff;cursor:not-allowed}
+        #final-result{margin-top:20px;padding:10px 15px;border-radius:10px;text-align:center;display:none;border:2px solid #ccc;transition:background-color .4s ease}
+        #final-result.animate-pop{display:block;animation:pop-in .5s cubic-bezier(.68,-.55,.27,1.55)}
+        @keyframes pop-in{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+        .final-word-display{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;margin-bottom:15px}
+        .jawi-word{font-size:4.5em;font-weight:700;color:#333; line-height: 1.1;}
+        .final-emojis { font-size: 2.5em; line-height: 1; margin-top: -15px; }
+        .manual-feedback{display:flex;justify-content:space-around;align-items:center;margin-bottom:15px}
+        .feedback-icon{font-size:4em;background:0 0;border:0;cursor:pointer;transition:transform .2s}
+        .feedback-icon:hover{transform:scale(1.2)}
+        #feedback-text{font-size:1.5em;font-weight:700;height:30px}
+        .feedback-correct{color:var(--success-green)}
+        .feedback-wrong{color:var(--danger-red)}
+        
+        @media (max-width: 768px) {
+            .top-controls { flex-direction: column; gap: 15px; margin-bottom: 15px;}
+            .mode-switch-container { order: 2; } 
+            .task-container { order: 1; width: 100%;} 
+            .game-stats { order: 3; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 5px; align-items: flex-start; }
+            .container { padding: 15px; margin-top: 20px; margin-bottom: 20px;}
+            h1 { font-size: 1.8em; margin-bottom: 10px; } 
+            .syllable-builder h2 { font-size: 2.em; margin-bottom: 10px; }
+            .jawi-blueprint-container { margin-bottom: 10px; padding: 5px;} 
+            .jawi-blueprint-container span { font-size: 2em; margin: 0 5px;}
+            
+            .app-body { flex-direction: column; gap: 15px; } 
+
+            .syllable-builder { padding: 10px; } 
+            .syllable-result { margin-top: 10px; height: 100px; }
+            .controls { margin-top: 15px; } 
+            #final-result { margin-top: 15px; }
+            #rumi-task { width: 90%; font-size: 1.2em; }
+            .button-group button { width: 42px; height: 42px; font-size: 1.4em; }
+            .jawi-syllable { font-size: 2.8em; } 
+            .rumi-syllable { font-size: 1.1em; } 
+            .syllable-emoji { font-size: 1.8em; }
+            .jawi-word { font-size: 3.5em; } 
+            .final-emojis { font-size: 2em; } 
+            .feedback-icon { font-size: 3em; }
+            .controls { display: flex; justify-content: center; } 
+            .action-button { padding: 10px 20px; font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fun Task Jawi</h1>
+        <div class="top-controls">
+            <div class="task-container"><label for="rumi-task">Tugasan Perkataan Rumi:</label><input type="text" id="rumi-task" placeholder="Taip perkataan & tekan Enter"></div>
+            <div class="mode-switch-container">
+                <span>Belajar</span>
+                <label class="switch"><input type="checkbox" id="mode-toggle"><span class="slider round"></span></label>
+                <span>Latihan</span>
+            </div>
+            <div class="game-stats">
+                <div class="score-counter" id="score-counter" style="display: none;">Skor: 0 🎯</div>
+                <div class="streak-counter" id="streak-counter">Kombo Betul: 0 🔥</div>
+            </div>
+        </div>
+        <div id="jawi-blueprint-container" class="jawi-blueprint-container"></div>
+        <div class="app-body">
+            <div class="syllable-builder" id="builder1"><h2>سوكو كات ١</h2><p>Langkah 1</p><div class="button-group" id="consonants1"></div><p>Langkah 2</p><div class="button-group" id="vowels1"></div><div class="syllable-result" id="result1"><div class="syllable-display"><span class="jawi-syllable"></span><span class="syllable-emoji"></span></div><span class="rumi-syllable"></span></div></div>
+            <div class="syllable-builder" id="builder2"><h2>سوكو كات ٢</h2><p>Langkah 1</p><div class="button-group" id="consonants2"></div><p>Langkah 2</p><div class="button-group" id="vowels2"></div><div class="syllable-result" id="result2"><div class="syllable-display"><span class="jawi-syllable"></span><span class="syllable-emoji"></span></div><span class="rumi-syllable"></span></div></div>
+        </div>
+        <div class="controls">
+            <button id="btn-submit" class="action-button disabled">حاصيل</button>
+        </div>
+        <div id="final-result">
+            <div class="final-word-display"><p class="jawi-word"></p><span class="final-emojis"></span></div>
+            <div class="manual-feedback">
+                <button id="btn-wrong" class="feedback-icon">❌</button>
+                <button id="btn-correct" class="feedback-icon">✅</button>
+            </div>
+            <p id="feedback-text"></p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data
+            const consonants = ['ب', 'ت', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ڠ', 'ڤ', 'ف', 'ق', 'ک', 'ڬ', 'ل', 'م', 'ن', 'و', 'ۏ', 'ه', 'ء', 'ي', 'ڽ'];
+            const vowels = ['ا', 'و', 'ي'];
+            
+            const jawiTradisiDict = {
+                "ini": "این", "itu": "ایت", "ada": "اد", "kita": "کیت", "jika": "جک", 
+                "kepada": "کڤد", "daripada": "درڤد", "dan": "دان", "lima": "ليم", "manusia": "ماءنسي", 
+                "daya": "داي", "gaya": "ڬاي", "jaya": "جاي", "maya": "ماي", "paya": "ڤاي", 
+                "raya": "راي", "saya": "ساي", "apa": "اڤ", "tiga": "تيݢ", "demikian": "دمكين", 
+                "neraka": "نراک", "dia": "دي", "bin": "بن", "syurga": "شرݢ", "pada": "ڤد", 
+                "binti": "بنت", "maka": "مک", "dari": "دري", "ia": "اي"
+            };
+
+            const rumiToJawiMap = {'ny': 'ڽ','ng': 'ڠ','gh': 'غ','kh': 'خ','th': 'ث','sy': 'ش','dh': 'ذ','a': 'ا','b': 'ب','c': 'چ','d': 'د','e': 'ي','f': 'ف','g': 'ڬ','h': 'ه','i': 'ي','j': 'ج','k': 'ك','l': 'ل','m': 'م','n': 'ن','o': 'و','p': 'ڤ','q': 'ق','r': 'ر','s': 'س','t': 'ت','u': 'و','v': 'ۏ','w': 'و','y': 'ي','z': 'ز',"'": 'ء'};
+            const darlungConsonants = ['د', 'ر', 'ل', 'و', 'ڠ'];
+            
+            // --- BUNYI HURUF ذ TELAH DIKEMAS KINI ---
+            const consonantRumiMap = {
+                'ب':'b', 'ت':'t', 'ث':'th', 'ج':'j', 'چ':'c', 'ح':'h', 'خ':'kh', 'د':'d', 'ذ':'Z', 'ر':'r', 'ز':'z', 'س':'s',
+                'ش':'sy', 'ص':'s', 'ض':'dh', 'ط':'th', 'ظ':'z', 'ع':'', 'غ':'gh', 'ڠ':'ng', 'ڤ':'p', 'ف':'f', 'ق':'q', 'ک':'k',
+                'ڬ':'g', 'ل':'l', 'م':'m', 'ن':'n', 'و':'w', 'ۏ':'v', 'ه':'h', 'ء':'', 'ي':'y', 'ڽ':'ny'
+            };
+            
+            // State
+            let state = {syllable1: { consonant: null, vowel: null, text: '', rumi: '', emoji: '' },syllable2: { consonant: null, vowel: null, text: '', rumi: '', emoji: '' }};
+            let correctStreak = 0; let score = 0; let isPracticeMode = false;
+
+            // Rujukan Elemen DOM
+            const modeToggle = document.getElementById('mode-toggle'); const rumiTaskInput = document.getElementById('rumi-task');
+            const blueprintContainer = document.getElementById('jawi-blueprint-container'); const submitBtn = document.getElementById('btn-submit');
+            const finalResultDiv = document.getElementById('final-result'); const feedbackText = document.getElementById('feedback-text');
+            const correctBtn = document.getElementById('btn-correct'); const wrongBtn = document.getElementById('btn-wrong');
+            const streakCounter = document.getElementById('streak-counter'); const scoreCounter = document.getElementById('score-counter');
+            
+            function generateBlueprint(event) {
+                if (event.key !== 'Enter') return;
+                handleReset(); 
+                const rumiWord = rumiTaskInput.value.trim().toLowerCase();
+                if (!rumiWord || isPracticeMode) { blueprintContainer.style.display = 'none'; return; }
+                
+                let jawiLetters = [];
+                if (jawiTradisiDict[rumiWord]) {
+                    jawiLetters = jawiTradisiDict[rumiWord].split('');
+                } else {
+                    let i = 0;
+                    while (i < rumiWord.length) {
+                        let two_letters = rumiWord.substring(i, i + 2);
+                        if (rumiToJawiMap[two_letters]) {
+                            jawiLetters.push(rumiToJawiMap[two_letters]);
+                            i += 2;
+                            continue;
+                        }
+                        let one_letter = rumiWord.substring(i, i + 1);
+                        if (rumiToJawiMap[one_letter]) {
+                            jawiLetters.push(rumiToJawiMap[one_letter]);
+                        }
+                        i += 1;
+                    }
+
+                    if (rumiWord.endsWith('a') && jawiLetters.length > 0 && jawiLetters[jawiLetters.length - 1] === 'ا') {
+                        const rumiVowels = rumiWord.split('').filter(char => 'aeiou'.includes(char));
+
+                        if (rumiVowels.length === 2 && (rumiVowels[0] === 'i' || rumiVowels[0] === 'e') && rumiVowels[1] === 'a') {
+                        }
+                        else if (rumiVowels.length === 2 && rumiVowels[0] === 'a' && rumiVowels[1] === 'a') {
+                            const middleConsonant = jawiLetters[jawiLetters.length - 2];
+                            if (!darlungConsonants.includes(middleConsonant)) {
+                                jawiLetters.pop();
+                            }
+                        }
+                        else if (rumiWord.endsWith('ka') || rumiWord.endsWith('ga')) {
+                            jawiLetters.pop();
+                        }
+                    }
+                }
+
+                if (jawiLetters.length > 0) {
+                    blueprintContainer.innerHTML = '';
+                    jawiLetters.forEach(letter => { const span = document.createElement('span'); span.textContent = letter; blueprintContainer.appendChild(span); });
+                    blueprintContainer.style.display = 'block';
+                } else {
+                    blueprintContainer.style.display = 'none';
+                }
+            }
+
+            function getRumiSyllable(jawiSyllable) {
+                if (!jawiSyllable || jawiSyllable.length < 1) { return ''; }
+                const konsonanJawi = jawiSyllable[0];
+                const konsonanRumi = (consonantRumiMap[konsonanJawi] || '').toUpperCase();
+
+                if (jawiSyllable.length === 1) {
+                    return konsonanRumi;
+                }
+
+                const vokalJawi = jawiSyllable[1];
+                if (konsonanJawi === 'ط') { if (vokalJawi === 'ا') return 'THO'; if (vokalJawi === 'ي') return 'THI'; }
+                if (vokalJawi === 'ا') { return konsonanRumi + 'A'; } 
+                else if (vokalJawi === 'و') { return konsonanRumi + 'O / ' + konsonanRumi + 'U'; } 
+                else if (vokalJawi === 'ي') { return konsonanRumi + 'I / ' + konsonanRumi + 'E'; }
+                return konsonanRumi;
+            }
+
+            function updateScore(points) { if (isPracticeMode) { score += points; scoreCounter.innerHTML = `Skor: ${score} 🎯`; } }
+            function updateStreak(isCorrect) { if (isCorrect) { correctStreak++; } else { correctStreak = 0; } streakCounter.innerHTML = `Kombo Betul: ${correctStreak} 🔥`; }
+            
+            function handleReset() {
+                state = {syllable1: { consonant: null, vowel: null, text: '', rumi: '', emoji: '' },syllable2: { consonant: null, vowel: null, text: '', rumi: '', emoji: '' }};
+                finalResultDiv.classList.remove('animate-pop');
+                blueprintContainer.style.display = 'none';
+                blueprintContainer.innerHTML = '';
+                document.querySelectorAll('.jawi-syllable, .rumi-syllable, .syllable-emoji').forEach(span => { span.textContent = ''; });
+                document.querySelectorAll(".button-group button").forEach(t => {
+                    t.classList.remove("selected");
+                    if ("vowel" === t.dataset.type) {
+                        t.classList.add("disabled");
+                    }
+                });
+                submitBtn.classList.add("disabled");
+            }
+
+            function fullReset() { 
+                handleReset(); 
+                rumiTaskInput.value = ''; 
+                correctStreak = 0; 
+                score = 0; 
+                streakCounter.innerHTML = `Kombo Betul: 0 🔥`; 
+                scoreCounter.innerHTML = `Skor: 0 🎯`; 
+            }
+            
+            function init() {
+                const c1 = document.getElementById("consonants1"), v1 = document.getElementById("vowels1"), c2 = document.getElementById("consonants2"), v2 = document.getElementById("vowels2");
+                createButtons(consonants, c1, "consonant", 1); createButtons(vowels, v1, "vowel", 1); createButtons(consonants, c2, "consonant", 2); createButtons(vowels, v2, "vowel", 2);
+                modeToggle.addEventListener('change', function() { isPracticeMode = this.checked; scoreCounter.style.display = isPracticeMode ? 'block' : 'none'; fullReset(); });
+                rumiTaskInput.addEventListener('keydown', generateBlueprint);
+                document.querySelector(".app-body").addEventListener("click", handleButtonClick);
+                submitBtn.addEventListener("click", handleSubmit);
+                correctBtn.addEventListener('click', function() { finalResultDiv.style.backgroundColor = '#d4edda'; feedbackText.textContent = 'MUMTAZ !'; feedbackText.className = 'feedback-correct'; updateStreak(true); updateScore(10); });
+                wrongBtn.addEventListener('click', function() { updateStreak(false); updateScore(-5); finalResultDiv.style.backgroundColor = '#f8d7da'; feedbackText.textContent = 'Sila Cuba Lagi'; feedbackText.className = 'feedback-wrong'; });
+            }
+
+            function createButtons(items, container, type, builderIndex) { container.innerHTML = ""; items.forEach(function(item) { const button = document.createElement("button"); button.textContent = item; button.dataset.value = item; button.dataset.type = type; button.dataset.builder = builderIndex; if (type === "vowel") { button.classList.add("disabled"); } container.appendChild(button); }); }
+            function handleButtonClick(e) {
+                const target = e.target;
+                if (target.tagName !== 'BUTTON' || target.classList.contains('disabled')) return;
+                const { type, builder, value } = target.dataset;
+                const builderKey = `syllable${builder}`;
+                const currentState = state[builderKey];
+                
+                if (type === 'consonant') { currentState.consonant = value; }
+                if (type === 'vowel') { currentState.vowel = value; }
+                
+                document.querySelectorAll(`#consonants${builder} button, #vowels${builder} button`).forEach(btn => {
+                    if (btn.dataset.type === type) { btn.classList.remove('selected'); }
+                });
+                target.classList.add('selected');
+
+                if (type === 'consonant' && currentState.vowel) {
+                     document.querySelectorAll(`#vowels${builder} button`).forEach(btn => btn.classList.remove('selected'));
+                     currentState.vowel = null;
+                }
+
+                if (currentState.consonant) {
+                    document.querySelectorAll(`#vowels${builder} button`).forEach(btn => btn.classList.remove('disabled'));
+                }
+
+                currentState.text = (currentState.consonant || '') + (currentState.vowel || '');
+                currentState.rumi = getRumiSyllable(currentState.text);
+                const resultDiv = document.getElementById(`result${builder}`);
+                resultDiv.querySelector('.jawi-syllable').textContent = currentState.text;
+                resultDiv.querySelector('.rumi-syllable').textContent = currentState.rumi;
+                
+                let emoji = '';
+                if (currentState.consonant && currentState.vowel) {
+                    if (currentState.vowel === 'ا') { emoji = '😃'; } 
+                    else if (currentState.vowel === 'و') { emoji = '😯'; } 
+                    else if (currentState.vowel === 'ي') { emoji = '😬'; }
+                }
+                resultDiv.querySelector('.syllable-emoji').textContent = emoji;
+                currentState.emoji = emoji;
+
+                checkSubmitButtonState();
+            }
+            
+            function handleSubmit() {
+                if (submitBtn.classList.contains('disabled')) return;
+                
+                const finalWord = (state.syllable1.consonant || '') + (state.syllable1.vowel || '') +
+                                  (state.syllable2.consonant || '') + (state.syllable2.vowel || '');
+
+                const emoji1 = state.syllable1.emoji || '';
+                const emoji2 = state.syllable2.emoji || '';
+                const combinedEmojis = emoji1 + emoji2;
+
+                finalResultDiv.querySelector('.jawi-word').textContent = finalWord;
+                finalResultDiv.querySelector('.final-emojis').textContent = combinedEmojis;
+                feedbackText.textContent = '';
+                finalResultDiv.style.backgroundColor = '';
+                finalResultDiv.classList.remove('animate-pop');
+                void finalResultDiv.offsetWidth;
+                finalResultDiv.classList.add('animate-pop');
+            }
+
+            function checkSubmitButtonState(){
+                if (state.syllable1.consonant) {
+                    submitBtn.classList.remove("disabled");
+                } else {
+                    submitBtn.classList.add("disabled");
+                }
+            }
+            
+            init();
+        });
+    </script>
+</body>
+</html>
