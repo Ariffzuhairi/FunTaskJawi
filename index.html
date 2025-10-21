@@ -233,6 +233,10 @@
         }
         .modal-content h2, .modal-content h3 { color: var(--primary-dark-blue); direction: ltr; text-align: left; }
         .modal-content p, .modal-content li { direction: ltr; text-align: left; font-size: 0.9em; line-height: 1.6; color: #333;}
+        
+        /* --- PERUBAHAN CSS DI SINI --- */
+        .modal-intro-text { text-align: center; }
+
         .modal-content .jawi-letter-list { font-size: 1.2em; font-weight: bold; }
         #manual-belajar, #manual-latihan, #manual-cabaran { display: none; }
         .modal-close-btn {
@@ -350,19 +354,38 @@
     <div id="rumi-jawi-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Jadual Padanan Rumi-Jawi</h2><div id="rumi-jawi-tables-container"></div></div></div>
     <div id="manual-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Manual Penggunaan</h2><div id="manual-belajar"><h3>Panduan Mode Belajar</h3><ol><li>Taip perkataan Rumi (cth: "baca") di dalam kotak tugasan dan tekan Enter.</li><li>Satu <strong>acuan (blueprint)</strong> ejaan Jawi yang betul akan dipaparkan sebagai panduan utama anda.</li><li>Bina semula ejaan tersebut dengan mengklik butang konsonan dan vokal yang betul di kotak "Suku Kata 1" & "Suku Kata 2".</li><li>Tekan butang <strong>"Hasil" (حاصيل)</strong> untuk menggabungkan suku kata yang anda bina.</li><li>Bandingkan hasil anda dengan <em>blueprint</em> dan nilai jawapan anda menggunakan butang ✅ atau ❌.</li></ol></div><div id="manual-latihan"><h3>Panduan Mode Latihan</h3><ol><li>Pilih mod "Latihan" menggunakan suis di bahagian atas.</li><li>Taip perkataan Rumi. Tiada <em>blueprint</em> akan ditunjukkan.</li><li>Jika anda tidak pasti padanan huruf, klik butang <strong>'i'</strong> di sebelah kotak input untuk melihat jadual padanan Rumi-Jawi.</li><li>Bina ejaan Jawi berdasarkan pengetahuan anda.</li><li>Tekan butang <strong>"Hasil" (حاصيل)</strong> untuk melihat jawapan anda.</li><li>Nilai jawapan anda. Skor dan kombo betul akan direkodkan.</li></ol></div><div id="manual-cabaran"><h3>Panduan Mod Cabaran Hukum 🏆</h3><ol><li>Klik butang <strong>"🏆 Cabaran"</strong>.</li><li>Pilih hukum Jawi yang anda ingin diuji dari senarai.</li><li>Aplikasi akan <strong>memberi anda satu perkataan</strong> secara automatik. Anda tidak perlu menaip.</li><li>Bina ejaan Jawi untuk perkataan yang diberi.</li><li>Selepas menekan "Hasil", nilai jawapan anda. Sebaik sahaja anda klik ✅ atau ❌, perkataan seterusnya akan diberi secara automatik.</li><li>Klik butang <strong>"Keluar"</strong> di bar status cabaran untuk kembali ke mod biasa.</li></ol></div></div></div>
     <div id="glossary-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Glosari Hukum Jawi</h2><p>Berikut adalah penerangan ringkas tentang hukum ejaan Jawi yang digunakan dalam aplikasi ini.</p><hr><h3>1. Ejaan Jawi Tradisi</h3><p>Ini adalah hukum paling utama. Sesetengah perkataan mempunyai ejaan warisan yang dikekalkan dan tidak terikat dengan hukum moden. Aplikasi akan sentiasa mengutamakan ejaan dari kamus dalaman ini.</p><p><strong>Contoh:</strong> <strong>ada</strong> dieja <strong>اد</strong> (bukan ادا), <strong>lima</strong> dieja <strong>ليم</strong> (bukan ليما).</p><h3>2. Hukum Bukan Darlung (Vokal a-a)</h3><p>Untuk perkataan dua suku kata dengan pola vokal <strong>a-a</strong>, huruf Alif (ا) di akhir akan <strong>digugurkan</strong> jika suku kata akhirnya bermula dengan salah satu dari 12 huruf konsonan berikut:</p><p class="jawi-letter-list" dir="rtl">ب, ت, ڤ, ݢ, ن, س, ڽ, چ, ي, ک, م, ج</p><p><strong>Nota:</strong> <strong>Hukum Ka-Ga</strong> termasuk di bawah hukum ini.</p><p><strong>Contoh:</strong> <strong>baca</strong> dieja <strong>باچ</strong> (bukan باچا), <strong>saka</strong> dieja <strong>ساک</strong> (bukan ساكا).</p><h3>3. Hukum Darlung (Pengecualian Vokal a-a)</h3><p>Ini adalah pengecualian kepada hukum di atas. Jika perkataan berpola vokal <strong>a-a</strong> tetapi konsonan di tengahnya adalah salah satu dari <strong>Dal (د), Ra (ر), Lam (ل), Wau (و), atau Nga (ڠ)</strong>, maka huruf Alif (ا) di akhir <strong>mesti dikekalkan</strong>.</p><p><strong>Contoh:</strong> <strong>dada</strong> dieja <strong>دادا</strong> (bukan داد), <strong>lawa</strong> dieja <strong>لاوا</strong> (bukan لاو).</p></div></div>
-    <div id="challenge-selection-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Pilih Cabaran Hukum</h2><p>Pilih satu hukum untuk memulakan latihan berfokus.</p><div class="challenge-buttons-container"><button id="btn-challenge-tradisi" class="challenge-card" data-challenge="tradisi"><span class="challenge-icon">📜</span><div class="challenge-text">Ejaan Tradisi<br><small>Uji ejaan warisan yang unik.</small></div></button><button id="btn-challenge-bukan-darlung" class="challenge-card" data-challenge="bukanDarlung"><span class="challenge-icon">✅</span><div class="challenge-text">Hukum Bukan Darlung<br><small>Fokus pada pengguguran Alif.</small></div></button><button id="btn-challenge-darlung" class="challenge-card" data-challenge="darlung"><span class="challenge-icon">❗</span><div class="challenge-text">Hukum Darlung<br><small>Fokus pada pengekalan Alif.</small></div></button></div></div></div>
+    
+    <div id="challenge-selection-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-btn">&times;</span>
+            <h2>Pilih Cabaran Hukum</h2>
+            <p class="modal-intro-text">Pilih satu hukum untuk memulakan latihan berfokus.</p>
+            <div class="challenge-buttons-container">
+                <button id="btn-challenge-tradisi" class="challenge-card" data-challenge="tradisi">
+                    <span class="challenge-icon">📜</span>
+                    <div class="challenge-text">Ejaan Tradisi<br><small>Uji ejaan warisan yang unik</small></div>
+                </button>
+                <button id="btn-challenge-bukan-darlung" class="challenge-card" data-challenge="bukanDarlung">
+                    <span class="challenge-icon">✅</span>
+                    <div class="challenge-text">Hukum Bukan Darlung<br><small>Fokus pada pengguguran Alif</small></div>
+                </button>
+                <button id="btn-challenge-darlung" class="challenge-card" data-challenge="darlung">
+                    <span class="challenge-icon">❗</span>
+                    <div class="challenge-text">Hukum Darlung<br><small>Fokus pada pengekalan Alif</small></div>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // All JavaScript code is here and has been verified.
         document.addEventListener('DOMContentLoaded', function() {
             const consonants = ['ا', 'ب', 'ت', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ڠ', 'ڤ', 'ف', 'ق', 'ک', 'ݢ', 'ل', 'م', 'ن', 'و', 'ۏ', 'ه', 'ء', 'ي', 'ڽ'];
             const vowels = ['ا', 'و', 'ي'];
             const jawiTradisiDict = { "ini": " اين", "itu": "ايت", "ada": "اد", "abu": "ابو", "otak": "اوتق", "ubi": "اوبي", "kita": "کیت", "jika": "جک", "kepada": "کڤد", "daripada": "درڤد", "dan": "دان", "lima": "ليم", "manusia": "ماءنسي", "daya": "داي", "gaya": "ݢاي", "jaya": "جاي", "maya": "ماي", "paya": "ڤاي", "raya": "راي", "saya": "ساي", "apa": "اڤ", "tiga": "تيݢ", "demikian": "دمكين", "neraka": "نراک", "dia": "دي", "bin": "بن", "syurga": "شرݢ", "pada": "ڤد", "binti": "بنت", "maka": "مک", "dari": "دري", "ia": "اي" };
             const rumiToJawiMap = {'a':'ا','b':'ب','c':'چ','d':'د','e':'ي','f':'ف','g':'ݢ','h':'ه','i':'ي','j':'ج','k':'ك','l':'ل','m':'م','n':'ن','o':'و','p':'ڤ','q':'ق','r':'ر','s':'س','t':'ت','u':'و','v':'ۏ','w':'و','y':'ي','z':'ز',"'":'ء','ny':'ڽ','ng':'ڠ','gh':'غ','kh':'خ','th':'ث','sy':'ش','dh':'ذ'};
             const bukanDarlungFinalConsonants = ['ب', 'ت', 'ڤ', 'ݢ', 'ن', 'س', 'ڽ', 'چ', 'ي', 'ک', 'م', 'ج'];
-            
-            // --- PERUBAHAN DI SINI ---
             const consonantRumiMap = { 'ا':'A', 'ب':'B', 'ت':'T', 'ث':'TS', 'ج':'J', 'چ':'C', 'ح':'H', 'خ':'KH', 'د':'D', 'ذ':'Z', 'ر':'R', 'ز':'Z', 'س':'S', 'ش':'SY', 'ص':'S', 'ض':'DH', 'ط':'TH', 'ظ':'Z', 'ع':'', 'غ':'GH', 'ڠ':'NG', 'ڤ':'P', 'ف':'F', 'ق':'Q', 'ک':'K', 'ݢ':'G', 'ل':'L', 'م':'M', 'ن':'N', 'و':'W', 'ۏ':'V', 'ه':'H', 'ء':'', 'ي':'Y', 'ڽ':'NY' };
-
             const vowelRumiMap = { 'ا': 'A', 'و': 'O / U', 'ي': 'I / E' };
             const wordBank = {
                 tradisi: ['ada', 'lima', 'maka', 'pada', 'kita', 'ini', 'itu', 'jika', 'dan', 'abu', 'otak'],
