@@ -99,6 +99,26 @@
             box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
         }
         
+        /* --- GAYA BUTANG BARU --- */
+        #btn-generate-blueprint {
+            font-size: 1.5em;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            border: 2px solid var(--primary-blue);
+            background-color: var(--primary-blue);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background-color 0.2s;
+        }
+        #btn-generate-blueprint:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
         #show-rumi-jawi-chart-btn {
             display: none; font-family: Arial, sans-serif; font-size: 1.2em;
             font-weight: bold; width: 38px; height: 38px; border-radius: 50%;
@@ -233,10 +253,7 @@
         }
         .modal-content h2, .modal-content h3 { color: var(--primary-dark-blue); direction: ltr; text-align: left; }
         .modal-content p, .modal-content li { direction: ltr; text-align: left; font-size: 0.9em; line-height: 1.6; color: #333;}
-        
-        /* --- PERUBAHAN CSS DI SINI --- */
         .modal-intro-text { text-align: center; }
-
         .modal-content .jawi-letter-list { font-size: 1.2em; font-weight: bold; }
         #manual-belajar, #manual-latihan, #manual-cabaran { display: none; }
         .modal-close-btn {
@@ -313,78 +330,42 @@
 </head>
 <body>
     <div class="container">
-        <div class="header-wrapper">
-            <h1>Fun Task Jawi</h1>
-        </div>
+        <div class="header-wrapper"><h1>Fun Task Jawi</h1></div>
         <div id="challenge-status-bar"></div>
-        <div class="top-controls">
-            <div class="mode-selection-wrapper">
-                <div class="mode-switch-container">
-                    <span>Belajar</span>
-                    <label class="switch"><input type="checkbox" id="mode-toggle"><span class="slider round"></span></label>
-                    <span>Latihan</span>
-                </div>
-                <button id="challenge-mode-btn">🏆 Cabaran</button>
-                <span id="show-glossary-btn" title="Glosari Hukum Jawi">📖</span>
-            </div>
-            <div class="game-stats">
-                <div class="score-counter" id="score-counter" style="display: none;">Skor: 0 🎯</div>
-                <div class="streak-counter" id="streak-counter" style="display: none;">Kombo Betul: 0 🔥</div>
-            </div>
-        </div>
+        <div class="top-controls"><div class="mode-selection-wrapper"><div class="mode-switch-container"><span>Belajar</span><label class="switch"><input type="checkbox" id="mode-toggle"><span class="slider round"></span></label><span>Latihan</span></div><button id="challenge-mode-btn">🏆 Cabaran</button><span id="show-glossary-btn" title="Glosari Hukum Jawi">📖</span></div><div class="game-stats"><div class="score-counter" id="score-counter" style="display: none;">Skor: 0 🎯</div><div class="streak-counter" id="streak-counter" style="display: none;">Kombo Betul: 0 🔥</div></div></div>
         
         <div class="main-content-wrapper">
-            <div class="task-container"><label for="rumi-task">Tugasan Perkataan Rumi:</label><div class="task-input-wrapper"><input type="text" id="rumi-task" placeholder="Taip perkataan & tekan Enter"><button id="show-rumi-jawi-chart-btn">i</button></div></div><div id="jawi-blueprint-container" class="jawi-blueprint-container"></div><div class="app-body"><div class="syllable-builder" id="builder1"><h2>سوكو كات ١</h2><p>Langkah 1</p><div class="button-group" id="consonants1"></div><p>Langkah 2</p><div class="button-group" id="vowels1"></div><div class="syllable-result" id="result1"><div class="syllable-display"><span class="jawi-syllable"></span><span class="syllable-emoji"></span></div><span class="rumi-syllable"></span></div></div><div class="syllable-builder" id="builder2"><h2>سوكو كات ٢</h2><p>Langkah 1</p><div class="button-group" id="consonants2"></div><p>Langkah 2</p><div class="button-group" id="vowels2"></div><div class="syllable-result" id="result2"><div class="syllable-display"><span class="jawi-syllable"></span><span class="syllable-emoji"></span></div><span class="rumi-syllable"></span></div></div></div>
+            <div class="task-container">
+                <label for="rumi-task">Tugasan Perkataan Rumi:</label>
+                <div class="task-input-wrapper">
+                    <input type="text" id="rumi-task" placeholder="Taip perkataan Rumi di sini">
+                    <button id="btn-generate-blueprint" title="Jana Acuan">➡️</button>
+                    <button id="show-rumi-jawi-chart-btn">i</button>
+                </div>
+            </div>
+            <div id="jawi-blueprint-container" class="jawi-blueprint-container"></div>
+            <div class="app-body"><div class="syllable-builder" id="builder1"><h2>سوكو كات ١</h2><p>Langkah 1</p><div class="button-group" id="consonants1"></div><p>Langkah 2</p><div class="button-group" id="vowels1"></div><div class="syllable-result" id="result1"><div class="syllable-display"><span class="jawi-syllable"></span><span class="syllable-emoji"></span></div><span class="rumi-syllable"></span></div></div><div class="syllable-builder" id="builder2"><h2>سوكو كات ٢</h2><p>Langkah 1</p><div class="button-group" id="consonants2"></div><p>Langkah 2</p><div class="button-group" id="vowels2"></div><div class="syllable-result" id="result2"><div class="syllable-display"><span class="jawi-syllable"></span><span class="syllable-emoji"></span></div><span class="rumi-syllable"></span></div></div></div>
         </div>
 
-        <div class="controls">
-            <button id="btn-reset" class="action-button">Padam</button>
-            <button id="btn-submit" class="action-button disabled">حاصيل</button>
-        </div>
-        <div id="final-result">
-            <div class="final-word-display"><p class="jawi-word"></p><span class="final-emojis"></span></div><div class="manual-feedback"><button id="btn-wrong" class="feedback-icon">❌</button><button id="btn-correct" class="feedback-icon">✅</button></div><p id="feedback-text"></p>
-        </div>
+        <div class="controls"><button id="btn-reset" class="action-button">Padam</button><button id="btn-submit" class="action-button disabled">حاصيل</button></div>
+        <div id="final-result"><div class="final-word-display"><p class="jawi-word"></p><span class="final-emojis"></span></div><div class="manual-feedback"><button id="btn-wrong" class="feedback-icon">❌</button><button id="btn-correct" class="feedback-icon">✅</button></div><p id="feedback-text"></p></div>
     </div>
 
-    <div class="manual-container">
-        <span class="manual-label">Panduan</span>
-        <button id="show-manual-btn">?</button>
-    </div>
+    <div class="manual-container"><span class="manual-label">Panduan</span><button id="show-manual-btn">?</button></div>
 
     <div id="rumi-jawi-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Jadual Padanan Rumi-Jawi</h2><div id="rumi-jawi-tables-container"></div></div></div>
-    <div id="manual-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Manual Penggunaan</h2><div id="manual-belajar"><h3>Panduan Mode Belajar</h3><ol><li>Taip perkataan Rumi (cth: "baca") di dalam kotak tugasan dan tekan Enter.</li><li>Satu <strong>acuan (blueprint)</strong> ejaan Jawi yang betul akan dipaparkan sebagai panduan utama anda.</li><li>Bina semula ejaan tersebut dengan mengklik butang konsonan dan vokal yang betul di kotak "Suku Kata 1" & "Suku Kata 2".</li><li>Tekan butang <strong>"Hasil" (حاصيل)</strong> untuk menggabungkan suku kata yang anda bina.</li><li>Bandingkan hasil anda dengan <em>blueprint</em> dan nilai jawapan anda menggunakan butang ✅ atau ❌.</li></ol></div><div id="manual-latihan"><h3>Panduan Mode Latihan</h3><ol><li>Pilih mod "Latihan" menggunakan suis di bahagian atas.</li><li>Taip perkataan Rumi. Tiada <em>blueprint</em> akan ditunjukkan.</li><li>Jika anda tidak pasti padanan huruf, klik butang <strong>'i'</strong> di sebelah kotak input untuk melihat jadual padanan Rumi-Jawi.</li><li>Bina ejaan Jawi berdasarkan pengetahuan anda.</li><li>Tekan butang <strong>"Hasil" (حاصيل)</strong> untuk melihat jawapan anda.</li><li>Nilai jawapan anda. Skor dan kombo betul akan direkodkan.</li></ol></div><div id="manual-cabaran"><h3>Panduan Mod Cabaran Hukum 🏆</h3><ol><li>Klik butang <strong>"🏆 Cabaran"</strong>.</li><li>Pilih hukum Jawi yang anda ingin diuji dari senarai.</li><li>Aplikasi akan <strong>memberi anda satu perkataan</strong> secara automatik. Anda tidak perlu menaip.</li><li>Bina ejaan Jawi untuk perkataan yang diberi.</li><li>Selepas menekan "Hasil", nilai jawapan anda. Sebaik sahaja anda klik ✅ atau ❌, perkataan seterusnya akan diberi secara automatik.</li><li>Klik butang <strong>"Keluar"</strong> di bar status cabaran untuk kembali ke mod biasa.</li></ol></div></div></div>
+    <div id="manual-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Manual Penggunaan</h2><div id="manual-belajar"><h3>Panduan Mode Belajar</h3><ol><li>Taip perkataan Rumi (cth: "baca") di dalam kotak tugasan dan tekan butang ➡️.</li><li>Satu <strong>acuan (blueprint)</strong> ejaan Jawi yang betul akan dipaparkan sebagai panduan utama anda.</li><li>Bina semula ejaan tersebut dengan mengklik butang konsonan dan vokal yang betul di kotak "Suku Kata 1" & "Suku Kata 2".</li><li>Tekan butang <strong>"Hasil" (حاصيل)</strong> untuk menggabungkan suku kata yang anda bina.</li><li>Bandingkan hasil anda dengan <em>blueprint</em> dan nilai jawapan anda menggunakan butang ✅ atau ❌.</li></ol></div><div id="manual-latihan"><h3>Panduan Mode Latihan</h3><ol><li>Pilih mod "Latihan" menggunakan suis di bahagian atas.</li><li>Taip perkataan Rumi. Tiada <em>blueprint</em> akan ditunjukkan.</li><li>Jika anda tidak pasti padanan huruf, klik butang <strong>'i'</strong> di sebelah kotak input untuk melihat jadual padanan Rumi-Jawi.</li><li>Bina ejaan Jawi berdasarkan pengetahuan anda.</li><li>Tekan butang <strong>"Hasil" (حاصيل)</strong> untuk melihat jawapan anda.</li><li>Nilai jawapan anda. Skor dan kombo betul akan direkodkan.</li></ol></div><div id="manual-cabaran"><h3>Panduan Mod Cabaran Hukum 🏆</h3><ol><li>Klik butang <strong>"🏆 Cabaran"</strong>.</li><li>Pilih hukum Jawi yang anda ingin diuji dari senarai.</li><li>Aplikasi akan <strong>memberi anda satu perkataan</strong> secara automatik. Anda tidak perlu menaip.</li><li>Bina ejaan Jawi untuk perkataan yang diberi.</li><li>Selepas menekan "Hasil", nilai jawapan anda. Sebaik sahaja anda klik ✅ atau ❌, perkataan seterusnya akan diberi secara automatik.</li><li>Klik butang <strong>"Keluar"</strong> di bar status cabaran untuk kembali ke mod biasa.</li></ol></div></div></div>
     <div id="glossary-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Glosari Hukum Jawi</h2><p>Berikut adalah penerangan ringkas tentang hukum ejaan Jawi yang digunakan dalam aplikasi ini.</p><hr><h3>1. Ejaan Jawi Tradisi</h3><p>Ini adalah hukum paling utama. Sesetengah perkataan mempunyai ejaan warisan yang dikekalkan dan tidak terikat dengan hukum moden. Aplikasi akan sentiasa mengutamakan ejaan dari kamus dalaman ini.</p><p><strong>Contoh:</strong> <strong>ada</strong> dieja <strong>اد</strong> (bukan ادا), <strong>lima</strong> dieja <strong>ليم</strong> (bukan ليما).</p><h3>2. Hukum Bukan Darlung (Vokal a-a)</h3><p>Untuk perkataan dua suku kata dengan pola vokal <strong>a-a</strong>, huruf Alif (ا) di akhir akan <strong>digugurkan</strong> jika suku kata akhirnya bermula dengan salah satu dari 12 huruf konsonan berikut:</p><p class="jawi-letter-list" dir="rtl">ب, ت, ڤ, ݢ, ن, س, ڽ, چ, ي, ک, م, ج</p><p><strong>Nota:</strong> <strong>Hukum Ka-Ga</strong> termasuk di bawah hukum ini.</p><p><strong>Contoh:</strong> <strong>baca</strong> dieja <strong>باچ</strong> (bukan باچا), <strong>saka</strong> dieja <strong>ساک</strong> (bukan ساكا).</p><h3>3. Hukum Darlung (Pengecualian Vokal a-a)</h3><p>Ini adalah pengecualian kepada hukum di atas. Jika perkataan berpola vokal <strong>a-a</strong> tetapi konsonan di tengahnya adalah salah satu dari <strong>Dal (د), Ra (ر), Lam (ل), Wau (و), atau Nga (ڠ)</strong>, maka huruf Alif (ا) di akhir <strong>mesti dikekalkan</strong>.</p><p><strong>Contoh:</strong> <strong>dada</strong> dieja <strong>دادا</strong> (bukan داد), <strong>lawa</strong> dieja <strong>لاوا</strong> (bukan لاو).</p></div></div>
-    
-    <div id="challenge-selection-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close-btn">&times;</span>
-            <h2>Pilih Cabaran Hukum</h2>
-            <p class="modal-intro-text">Pilih satu hukum untuk memulakan latihan berfokus.</p>
-            <div class="challenge-buttons-container">
-                <button id="btn-challenge-tradisi" class="challenge-card" data-challenge="tradisi">
-                    <span class="challenge-icon">📜</span>
-                    <div class="challenge-text">Ejaan Tradisi<br><small>Uji ejaan warisan yang unik</small></div>
-                </button>
-                <button id="btn-challenge-bukan-darlung" class="challenge-card" data-challenge="bukanDarlung">
-                    <span class="challenge-icon">✅</span>
-                    <div class="challenge-text">Hukum Bukan Darlung<br><small>Fokus pada pengguguran Alif</small></div>
-                </button>
-                <button id="btn-challenge-darlung" class="challenge-card" data-challenge="darlung">
-                    <span class="challenge-icon">❗</span>
-                    <div class="challenge-text">Hukum Darlung<br><small>Fokus pada pengekalan Alif</small></div>
-                </button>
-            </div>
-        </div>
-    </div>
+    <div id="challenge-selection-modal" class="modal-overlay"><div class="modal-content"><span class="modal-close-btn">&times;</span><h2>Pilih Cabaran Hukum</h2><p class="modal-intro-text">Pilih satu hukum untuk memulakan latihan berfokus.</p><div class="challenge-buttons-container"><button id="btn-challenge-tradisi" class="challenge-card" data-challenge="tradisi"><span class="challenge-icon">📜</span><div class="challenge-text">Ejaan Tradisi<br><small>Uji ejaan warisan yang unik</small></div></button><button id="btn-challenge-bukan-darlung" class="challenge-card" data-challenge="bukanDarlung"><span class="challenge-icon">✅</span><div class="challenge-text">Hukum Bukan Darlung<br><small>Fokus pada pengguguran Alif</small></div></button><button id="btn-challenge-darlung" class="challenge-card" data-challenge="darlung"><span class="challenge-icon">❗</span><div class="challenge-text">Hukum Darlung<br><small>Fokus pada pengekalan Alif</small></div></button></div></div></div>
 
     <script>
-        // All JavaScript code is here and has been verified.
         document.addEventListener('DOMContentLoaded', function() {
+            // Data
             const consonants = ['ا', 'ب', 'ت', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ڠ', 'ڤ', 'ف', 'ق', 'ک', 'ݢ', 'ل', 'م', 'ن', 'و', 'ۏ', 'ه', 'ء', 'ي', 'ڽ'];
             const vowels = ['ا', 'و', 'ي'];
             const jawiTradisiDict = { "ini": " اين", "itu": "ايت", "ada": "اد", "abu": "ابو", "otak": "اوتق", "ubi": "اوبي", "kita": "کیت", "jika": "جک", "kepada": "کڤد", "daripada": "درڤد", "dan": "دان", "lima": "ليم", "manusia": "ماءنسي", "daya": "داي", "gaya": "ݢاي", "jaya": "جاي", "maya": "ماي", "paya": "ڤاي", "raya": "راي", "saya": "ساي", "apa": "اڤ", "tiga": "تيݢ", "demikian": "دمكين", "neraka": "نراک", "dia": "دي", "bin": "بن", "syurga": "شرݢ", "pada": "ڤد", "binti": "بنت", "maka": "مک", "dari": "دري", "ia": "اي" };
             const rumiToJawiMap = {'a':'ا','b':'ب','c':'چ','d':'د','e':'ي','f':'ف','g':'ݢ','h':'ه','i':'ي','j':'ج','k':'ك','l':'ل','m':'م','n':'ن','o':'و','p':'ڤ','q':'ق','r':'ر','s':'س','t':'ت','u':'و','v':'ۏ','w':'و','y':'ي','z':'ز',"'":'ء','ny':'ڽ','ng':'ڠ','gh':'غ','kh':'خ','th':'ث','sy':'ش','dh':'ذ'};
-            const bukanDarlungFinalConsonants = ['ب', 'ت', 'ڤ', 'ݢ', 'ن', 'س', 'ڽ', 'چ', 'ي', 'ک', 'م', 'ج'];
+            const bukanDarlungFinalConsonants = ['ب', 'ت', 'ڤ', 'ݢ', 'н', 'س', 'ڽ', 'چ', 'ي', 'ک', 'م', 'ج'];
             const consonantRumiMap = { 'ا':'A', 'ب':'B', 'ت':'T', 'ث':'TS', 'ج':'J', 'چ':'C', 'ح':'H', 'خ':'KH', 'د':'D', 'ذ':'Z', 'ر':'R', 'ز':'Z', 'س':'S', 'ش':'SY', 'ص':'S', 'ض':'DH', 'ط':'TH', 'ظ':'Z', 'ع':'', 'غ':'GH', 'ڠ':'NG', 'ڤ':'P', 'ف':'F', 'ق':'Q', 'ک':'K', 'ݢ':'G', 'ل':'L', 'م':'M', 'ن':'N', 'و':'W', 'ۏ':'V', 'ه':'H', 'ء':'', 'ي':'Y', 'ڽ':'NY' };
             const vowelRumiMap = { 'ا': 'A', 'و': 'O / U', 'ي': 'I / E' };
             const wordBank = {
@@ -397,6 +378,7 @@
             let correctStreak = 0; let score = 0; let isPracticeMode = false;
             let currentChallenge = null;
 
+            // Elements
             const modeToggle = document.getElementById('mode-toggle'); const rumiTaskInput = document.getElementById('rumi-task');
             const blueprintContainer = document.getElementById('jawi-blueprint-container'); const submitBtn = document.getElementById('btn-submit');
             const finalResultDiv = document.getElementById('final-result'); const feedbackText = document.getElementById('feedback-text');
@@ -410,12 +392,16 @@
             const allModals = document.querySelectorAll('.modal-overlay');
             const challengeSelectionModal = document.getElementById('challenge-selection-modal');
             const challengeStatusBar = document.getElementById('challenge-status-bar');
+            const generateBlueprintBtn = document.getElementById('btn-generate-blueprint');
 
-            function generateBlueprint(event) {
-                if (event.key !== 'Enter') return;
+            // === PERUBAHAN LOGIK JAVASCRIPT DI SINI ===
+            function processBlueprint() {
                 handleReset(); 
                 const rumiWord = rumiTaskInput.value.trim().toLowerCase();
-                if (!rumiWord || isPracticeMode || currentChallenge) { blueprintContainer.style.display = 'none'; return; }
+                if (!rumiWord || isPracticeMode || currentChallenge) { 
+                    blueprintContainer.style.display = 'none'; 
+                    return; 
+                }
                 
                 let jawiLetters = [];
                 if (jawiTradisiDict[rumiWord]) {
@@ -458,16 +444,12 @@
                     if (consonant === 'و') return 'W';
                     if (consonant === 'ي') return 'Y';
                 }
-                
                 if (!jawiSyllable || jawiSyllable.length < 1) { return ''; }
-
                 if (jawiSyllable.startsWith('ا')) {
                     if (jawiSyllable.length > 1) {
                         const vokalJawi = jawiSyllable[1];
                         return (vowelRumiMap[vokalJawi] || '');
-                    } else {
-                        return 'A';
-                    }
+                    } else { return 'A'; }
                 }
                 if (vowels.includes(jawiSyllable[0]) && jawiSyllable.length === 1) {
                     return (vowelRumiMap[jawiSyllable[0]] || '');
@@ -478,12 +460,8 @@
                 const vokalJawi = jawiSyllable[1];
                 if (konsonanJawi === 'ط') { if (vokalJawi === 'ا') return 'THO'; if (vokalJawi === 'ي') return 'THI'; }
                 if (vokalJawi === 'ا') { return konsonanRumi + 'A'; } 
-                else if (vokalJawi === 'و') {
-                     return konsonanRumi + 'O / ' + konsonanRumi + 'U';
-                } 
-                else if (vokalJawi === 'ي') {
-                    return konsonanRumi + 'I / ' + konsonanRumi + 'E';
-                }
+                else if (vokalJawi === 'و') { return konsonanRumi + 'O / ' + konsonanRumi + 'U'; } 
+                else if (vokalJawi === 'ي') { return konsonanRumi + 'I / ' + konsonanRumi + 'E'; }
                 return konsonanRumi;
             }
 
@@ -525,6 +503,7 @@
                 modeToggle.disabled = true;
                 challengeModeBtn.disabled = true;
                 rumiTaskInput.disabled = true;
+                generateBlueprintBtn.disabled = true;
                 score = 0; correctStreak = 0;
                 updateScore(0); updateStreak(false);
                 
@@ -541,7 +520,8 @@
                 modeToggle.disabled = false;
                 challengeModeBtn.disabled = false;
                 rumiTaskInput.disabled = false;
-                rumiTaskInput.placeholder = 'Taip perkataan & tekan Enter';
+                generateBlueprintBtn.disabled = false;
+                rumiTaskInput.placeholder = 'Taip perkataan Rumi di sini';
                 resetBtn.style.display = 'inline-block'; 
                 
                 scoreCounter.style.display = isPracticeMode ? 'block' : 'none';
@@ -564,13 +544,20 @@
                 
                 modeToggle.addEventListener('change', function() { 
                     isPracticeMode = this.checked; 
+                    generateBlueprintBtn.style.display = isPracticeMode ? 'none' : 'flex';
                     scoreCounter.style.display = isPracticeMode ? 'block' : 'none'; 
                     streakCounter.style.display = isPracticeMode ? 'flex' : 'none';
                     showRumiJawiChartBtn.style.display = isPracticeMode ? 'inline-block' : 'none';
                     fullReset(); 
                 });
                 
-                rumiTaskInput.addEventListener('keydown', generateBlueprint);
+                rumiTaskInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        processBlueprint();
+                    }
+                });
+                generateBlueprintBtn.addEventListener('click', processBlueprint);
+                
                 document.querySelector(".app-body").addEventListener("click", handleButtonClick);
                 submitBtn.addEventListener("click", handleSubmit);
                 resetBtn.addEventListener('click', handleUserReset);
@@ -599,13 +586,9 @@
                     manualLatihan.style.display = 'none';
                     manualCabaran.style.display = 'none';
 
-                    if (currentChallenge) {
-                        manualCabaran.style.display = 'block';
-                    } else if (isPracticeMode) {
-                        manualLatihan.style.display = 'block';
-                    } else {
-                        manualBelajar.style.display = 'block';
-                    }
+                    if (currentChallenge) { manualCabaran.style.display = 'block'; } 
+                    else if (isPracticeMode) { manualLatihan.style.display = 'block'; } 
+                    else { manualBelajar.style.display = 'block'; }
                     manualModal.style.display = 'flex';
                 });
 
@@ -625,14 +608,11 @@
                     let container = document.getElementById('rumi-jawi-tables-container');
                     container.innerHTML = '';
                     let vowelTable = '<table class="rumi-jawi-table"><caption>Huruf Vokal</caption><thead><tr><th>Jawi</th><th>Bunyi Rumi</th></tr></thead><tbody>';
-                    vowels.forEach(vowel => {
-                        vowelTable += `<tr><td>${vowel}</td><td>${vowelRumiMap[vowel] || ''}</td></tr>`;
-                    });
+                    vowels.forEach(vowel => { vowelTable += `<tr><td>${vowel}</td><td>${vowelRumiMap[vowel] || ''}</td></tr>`; });
                     vowelTable += '</tbody></table>';
                     let consonantTable = '<table class="rumi-jawi-table" style="margin-top: 20px;"><caption>Huruf Konsonan</caption><thead><tr><th>Jawi</th><th>Bunyi Rumi</th><th>Jawi</th><th>Bunyi Rumi</th></tr></thead><tbody>';
                     for (let i = 0; i < consonants.length; i += 2) {
-                        const con1 = consonants[i];
-                        const rumi1 = consonantRumiMap[con1] || '';
+                        const con1 = consonants[i]; const rumi1 = consonantRumiMap[con1] || '';
                         const con2 = (i + 1 < consonants.length) ? consonants[i+1] : '';
                         const rumi2 = (con2) ? consonantRumiMap[con2] || '' : '';
                         consonantTable += `<tr><td>${con1}</td><td>${rumi1}</td><td>${con2}</td><td>${rumi2}</td></tr>`;
@@ -647,10 +627,8 @@
                 container.innerHTML = ""; 
                 items.forEach(function(item) { 
                     const button = document.createElement("button"); 
-                    button.textContent = item; 
-                    button.dataset.value = item; 
-                    button.dataset.type = type; 
-                    button.dataset.builder = builderIndex; 
+                    button.textContent = item; button.dataset.value = item; 
+                    button.dataset.type = type; button.dataset.builder = builderIndex; 
                     container.appendChild(button); 
                 }); 
             }
@@ -671,11 +649,8 @@
                 }
                 target.classList.add('selected');
 
-                if(currentState.vowel && !currentState.consonant) {
-                    currentState.text = currentState.vowel;
-                } else {
-                    currentState.text = (currentState.consonant || '') + (currentState.vowel || '');
-                }
+                if(currentState.vowel && !currentState.consonant) { currentState.text = currentState.vowel; } 
+                else { currentState.text = (currentState.consonant || '') + (currentState.vowel || ''); }
                 
                 currentState.rumi = getRumiSyllable(currentState.text, currentState.consonant, currentState.vowel);
                 
